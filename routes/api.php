@@ -24,25 +24,4 @@ Route::apiResource('products', ProductController::class);
 
 Route::get('rate-product/user/{user}/product/{product}/rate/{rate}', [ProductController::class, 'rateProduct', ['user', 'product', 'rate']]);
 
-/*
-Route::get('rate-product/data/{data}', function ($data) {
-    return 'ok2' . $data;
-});
-*/
-
-/*
-Route::get('rate-product/data/{data}', function(){
-    //$data = "Name";
-    return App::call('App\Http\Controllers\Api\ProductController@rateProduct' , ['data' => $data]);
-});
-*/
-
-/*
-Route::get('rate-product', [ProductController::class, 'rateProduct']);
-*/
-
-/*
-Route::get('user/{id}/profile', function ($id) {
-    //
-})->name('profile');
-*/
+Route::get('out-of-stock/{product}', [ProductController::class, 'outOfStock', ['product']]);

@@ -24828,7 +24828,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         products = _useProducts.products,
         getProducts = _useProducts.getProducts,
         destroyProduct = _useProducts.destroyProduct,
-        qualifyProduct = _useProducts.qualifyProduct;
+        qualifyProduct = _useProducts.qualifyProduct,
+        outOfInventory = _useProducts.outOfInventory;
 
     var deleteProduct = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(id) {
@@ -24890,11 +24891,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       };
     }();
 
+    var outOfStock = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(id) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return outOfInventory(id);
+
+              case 2:
+                _context3.next = 4;
+                return getProducts();
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function outOfStock(_x3) {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(getProducts);
     return {
       products: products,
       deleteProduct: deleteProduct,
-      rateProduct: rateProduct
+      rateProduct: rateProduct,
+      outOfStock: outOfStock
     };
   }
 });
@@ -25548,8 +25576,9 @@ var _hoisted_30 = ["onClick"];
 var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"separator-20\"></div><select id=\"rate\"><option value=\"1\">1</option><option value=\"2\">2</option><option value=\"3\">3</option><option value=\"4\">4</option><option value=\"5\">5</option></select>", 2);
 
 var _hoisted_33 = ["onClick"];
+var _hoisted_34 = ["onClick"];
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
 
@@ -25635,7 +25664,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-black uppercase tracking-widest disabled:opacity-25 transition ease-in-out duration-150"
     }, " Calificar", 8
     /* PROPS */
-    , _hoisted_33)])])]), _hoisted_34], 64
+    , _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $setup.outOfStock(item.id);
+      },
+      "class": "inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-black uppercase tracking-widest disabled:opacity-25 transition ease-in-out duration-150"
+    }, " Sin Inventario", 8
+    /* PROPS */
+    , _hoisted_34)])])]), _hoisted_35], 64
     /* STABLE_FRAGMENT */
     );
   }), 128
@@ -26098,6 +26134,28 @@ function useProducts() {
     };
   }();
 
+  var outOfInventory = /*#__PURE__*/function () {
+    var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(id) {
+      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/out-of-stock/".concat(id));
+
+            case 2:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    }));
+
+    return function outOfInventory(_x6) {
+      return _ref7.apply(this, arguments);
+    };
+  }();
+
   return {
     errors: errors,
     product: product,
@@ -26107,7 +26165,8 @@ function useProducts() {
     storeProduct: storeProduct,
     updateProduct: updateProduct,
     destroyProduct: destroyProduct,
-    qualifyProduct: qualifyProduct
+    qualifyProduct: qualifyProduct,
+    outOfInventory: outOfInventory
   };
 }
 

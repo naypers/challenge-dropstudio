@@ -62,6 +62,10 @@ export default function useProducts() {
         await axios.get(`/api/rate-product/user/${id_user}/product/${id}/rate/${rate}`)
     }
 
+    const outOfInventory = async (id) => {
+        await axios.get(`/api/out-of-stock/${id}`)
+    }
+
     return {
         errors,
         product,
@@ -71,6 +75,7 @@ export default function useProducts() {
         storeProduct,
         updateProduct,
         destroyProduct,
-        qualifyProduct
+        qualifyProduct,
+        outOfInventory
     }
 }

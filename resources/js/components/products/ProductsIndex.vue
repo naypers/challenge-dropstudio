@@ -74,7 +74,12 @@
 
                     <button @click="rateProduct(item.id)"
                         class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-black uppercase tracking-widest disabled:opacity-25 transition ease-in-out duration-150">
-                        Calificar</button>  
+                        Calificar</button> 
+
+
+                    <button @click="outOfStock(item.id)"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-black uppercase tracking-widest disabled:opacity-25 transition ease-in-out duration-150">
+                        Sin Inventario</button> 
 
                 </td>
             </tr>
@@ -89,7 +94,7 @@ import { onMounted } from 'vue';
 
 export default {
     setup() {
-        const { products, getProducts, destroyProduct, qualifyProduct } = useProducts()
+        const { products, getProducts, destroyProduct, qualifyProduct, outOfInventory } = useProducts()
 
         const deleteProduct = async (id) => {
             if (!window.confirm('¿Seguro que quieres eliminar este producto?')) {
@@ -105,12 +110,18 @@ export default {
             await getProducts()
         }
 
+        const outOfStock = async (id) => {
+            await outOfInventory(id)
+            await getProducts()
+        }
+
         onMounted(getProducts)
 
         return {
             products,
             deleteProduct,
-            rateProduct
+            rateProduct,
+            outOfStock
         }
     }
 }

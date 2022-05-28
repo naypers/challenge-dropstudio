@@ -94,5 +94,13 @@ class ProductController extends Controller
         return response()->noContent();
     }
 
+    public function outOfStock(Product $product)
+    {
+        $product->status = 0;
+        $product->save();
+
+        return response()->noContent();
+    }
+
 
 }
