@@ -1,19 +1,19 @@
 <template>
-    <h1>Agregar Producto</h1>
+    <h1>Editar Producto</h1>
     <br />
 
     <div class="mt-2 mb-6 text-sm text-red-600" v-if="errors !== ''">
         {{ errors }}
     </div>
 
-    <form class="space-y-6" @submit.prevent="saveProduct">
+    <form class="space-y-6" v-on:submit.prevent="saveProduct">
         <div class="space-y-4 rounded-md shadow-sm">
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
                 <div class="mt-1">
                     <input type="text" name="name" id="name"
                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.name">
+                           v-model="product.name">
                 </div>
             </div>
             <br />
@@ -23,37 +23,7 @@
                 <div class="mt-1">
                     <input type="text" name="sku" id="sku"
                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.sku">
-                </div>
-            </div>
-            <br />
-
-            <div>
-                <label for="description" class="block text-sm font-medium text-gray-700">Descripción</label>
-                <div class="mt-1">
-                    <input type="text" name="description" id="description"
-                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.description">
-                </div>
-            </div>
-            <br />
-
-            <div>
-                <label for="price" class="block text-sm font-medium text-gray-700">Precio</label>
-                <div class="mt-1">
-                    <input type="text" name="price" id="price"
-                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.price">
-                </div>
-            </div>
-            <br />
-
-            <div>
-                <label for="amount" class="block text-sm font-medium text-gray-700">Cantidad</label>
-                <div class="mt-1">
-                    <input type="text" name="amount" id="amount"
-                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.amount">
+                           v-model="product.sku">
                 </div>
             </div>
             <br />
@@ -63,7 +33,37 @@
                 <div class="mt-1">
                     <input type="text" name="id_category" id="id_category"
                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.id_category">
+                           v-model="product.id_category">
+                </div>
+            </div>
+            <br />
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Descripción</label>
+                <div class="mt-1">
+                    <textarea name="description" id="description"
+                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           v-model="product.description"></textarea>
+                </div>
+            </div>
+            <br />
+
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700">Precio</label>
+                <div class="mt-1">
+                    <input type="text" name="price" id="price"
+                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           v-model="product.price">
+                </div>
+            </div>
+            <br />
+
+            <div>
+                <label for="amount" class="block text-sm font-medium text-gray-700">Cantidad</label>
+                <div class="mt-1">
+                    <input type="text" name="amount" id="amount"
+                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           v-model="product.amount">
                 </div>
             </div>
             <br />
@@ -73,7 +73,7 @@
                 <div class="mt-1">
                     <input type="text" name="status" id="status"
                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                           v-model="form.status">
+                           v-model="product.status">
                 </div>
             </div>
         </div>
@@ -86,39 +86,37 @@
 
         <button type="submit"
                 class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent ring-gray-300 transition duration-150 ease-in-out hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring disabled:opacity-25">
-            Agregar Producto
+            Guardar Producto
         </button>
     </form>
 </template>
 
 <script>
 import useProducts from '../../composables/products'
-import { reactive } from 'vue'
+import { onMounted } from 'vue';
 
 export default {
-    setup() {
-        const form = reactive({
-            name: '',
-            sku: '',
-            id_category: '',
-            description: '',
-            price: '',
-            amount: '',
-            status: ''
-        })
+    props: {
+        id: {
+            required: true,
+            type: String
+        }
+    },
 
-        const { errors, storeProduct } = useProducts()
+    setup(props) {
+        const { errors, product, updateProduct, getProduct } = useProducts()
+
+        onMounted(() => getProduct(props.id))
 
         const saveProduct = async () => {
-            await storeProduct({ ...form })
+            await updateProduct(props.id)
         }
 
         return {
-            form,
             errors,
+            product,
             saveProduct
         }
     }
 }
-
 </script>

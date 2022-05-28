@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Rating;
 
 class Product extends Model
 {
@@ -13,4 +14,13 @@ class Product extends Model
     public function getCategory() {
         return $this->belongsTo(Category::class, 'id_category');
     }    
+
+    public function getRatingAttribute() {
+        $avgRating = Rating::where('id_product', $this->id)->avg('rating');
+        return round($avgRating, 1);
+    }
+
+    public function getNumRatingAttribute() {
+        return Rating::where('id_product', $this->id)->count();
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -66,6 +67,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        Rating::where('id_product', $product->id)->delete();
         $product->delete();
 
         return response()->noContent();
