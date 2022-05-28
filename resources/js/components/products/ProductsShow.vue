@@ -1,81 +1,56 @@
 <template>
-    <h1>Ver Producto</h1>
-    <br />
-
-    <div class="mt-2 mb-6 text-sm text-red-600" v-if="errors !== ''">
-        {{ errors }}
-    </div>
-
 
     <div class="space-y-4 rounded-md shadow-sm">
-        <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
-            <div class="mt-1">
-                <input type="text" name="name" id="name"
-                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                       v-model="product.name" disabled>
-            </div>
-        </div>
-        <br />
 
-        <div>
-            <label for="sku" class="block text-sm font-medium text-gray-700">Sku</label>
-            <div class="mt-1">
-                <input type="text" name="sku" id="sku"
-                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                       v-model="product.sku" disabled>
-            </div>
-        </div>
-        <br />
+        <table class="table-products">
+            <tr>
+                <td class="table-s1">
+                    <img src="http://127.0.0.1:8000/img/product.jpeg" width="240" /> 
+                </td>
 
-        <div>
-            <label for="id_category" class="block text-sm font-medium text-gray-700">Categoría</label>
-            <div class="mt-1">
-                <input type="text" name="id_category" id="id_category"
-                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                       v-model="product.id_category" disabled>
-            </div>
-        </div>
-        <br />
+                <td class="table-s2">
+                    <strong>{{ product.name }}</strong>  
+                    <span class="text-sku">(sku{{ product.sku }})</span>
+                        <br /><br />
+                    Categoria: {{ product.category }}
+                        <br /><br />
+                    <div v-if="product.rating > 0">
+                        <img src="/img/star.png" width="20" style="display: inline" /> 
+                            &nbsp;
+                        <strong>{{ product.rating }}</strong>
+                        <span class="text-grey"> ({{ product.num_rating }} Calificaciones)</span>
+                            <br />
+                        {{ product.amount }} disponibles
+                    </div>
+                    <div v-else>
+                        <img src="/img/star.png" width="20" style="display: inline" /> 
+                            &nbsp;
+                        Aun no cuenta con calificaciones
+                    </div>
+                        <br />
+                    Descripción: {{ product.description }}
+                        <br /><br />
+                    <strong>Precio: ${{ product.price }}</strong>
+                        <br /><br />
+                    <div v-if="product.status == 1" align="left">
+                        <div class="pill-available">
+                            Disponible ({{ product.amount }})
+                        </div>
+                    </div>
+                    <div v-else align="left">
+                        <div class="pill-no-available">
+                            No disponible
+                        </div>
+                    </div>
 
-        <div>
-            <label for="description" class="block text-sm font-medium text-gray-700">Descripción</label>
-            <div class="mt-1">
-                <textarea name="description" id="description"
-                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                       v-model="product.description" disabled></textarea>
-            </div>
-        </div>
-        <br />
+                    <br />
 
-        <div>
-            <label for="price" class="block text-sm font-medium text-gray-700">Precio</label>
-            <div class="mt-1">
-                <input type="text" name="price" id="price"
-                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                       v-model="product.price" disabled>
-            </div>
-        </div>
-        <br />
-
-        <div>
-            <label for="amount" class="block text-sm font-medium text-gray-700">Cantidad</label>
-            <div class="mt-1">
-                <input type="text" name="amount" id="amount"
-                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                       v-model="product.amount" disabled>
-            </div>
-        </div>
-        <br />
-
-        <div>
-            <label for="status" class="block text-sm font-medium text-gray-700">Estatus</label>
-            <div class="mt-1">
-                <input type="text" name="status" id="status"
-                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                       v-model="product.status" disabled>
-            </div>
-        </div>
+                    <div class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                        <router-link :to="{ name: 'products.create' }" class="text-sm font-medium">Calificar</router-link>
+                    </div>
+                </td>
+            </tr>
+        </table>        
     </div>
 
     <br />

@@ -1430,6 +1430,18 @@ select {
   padding: 20px
 }
 
+.table-s1 {
+  width: 30%;
+  text-align: center;
+  padding: 20px;
+}
+
+.table-s2 {
+  width: 70%;
+  text-align: justify;
+  padding: 20px;
+}
+
 .text-grey {
   color: #CCC;
 }

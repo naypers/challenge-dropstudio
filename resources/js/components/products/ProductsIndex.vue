@@ -23,8 +23,6 @@
                             &nbsp;
                         <strong>{{ item.rating }}</strong>
                         <span class="text-grey"> ({{ item.num_rating }} Calificaciones)</span>
-                            <br />
-                        {{ item.amount }} disponibles
                     </div>
                     <div v-else>
                         <img src="/img/star.png" width="20" style="display: inline" /> 
@@ -39,7 +37,7 @@
 
                     <div v-if="item.status == 1" align="center">
                         <div class="pill-available">
-                            Disponible
+                            Disponible ({{ item.amount }})
                         </div>
                     </div>
                     <div v-else align="center">
