@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Rating;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -72,4 +73,26 @@ class ProductController extends Controller
 
         return response()->noContent();
     }
+
+    public function rateProduct(User $user, Product $product, $rate)
+    {
+        $rating = Rating::where('id_user', $user->id)
+                        ->where('id_product', $product->id)
+                        ->first();
+        
+        if ($rating) {
+            $rating->rating = $rate;
+            $rating->save();
+        } else {
+            $rating = Rating::create([
+                'id_user'    => $user->id,
+                'id_product' => $product->id,
+                'rating'     => $rate,
+            ]);
+        }
+
+        return response()->noContent();
+    }
+
+
 }

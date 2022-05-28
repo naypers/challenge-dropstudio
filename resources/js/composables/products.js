@@ -52,6 +52,16 @@ export default function useProducts() {
         await axios.delete(`/api/products/${id}`)
     }
 
+    const qualifyProduct = async (id) => {
+        const user = document.getElementById('id_user');
+        const id_user = user.value;
+
+        const select = document.getElementById('rate');
+        const rate = select.options[select.selectedIndex].value;
+
+        await axios.get(`/api/rate-product/user/${id_user}/product/${id}/rate/${rate}`)
+    }
+
     return {
         errors,
         product,
@@ -60,6 +70,7 @@ export default function useProducts() {
         getProducts,
         storeProduct,
         updateProduct,
-        destroyProduct
+        destroyProduct,
+        qualifyProduct
     }
 }

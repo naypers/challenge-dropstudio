@@ -61,6 +61,21 @@
                     <button @click="deleteProduct(item.id)"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                         Eliminar</button>
+
+                    <div class="separator-20"></div>
+
+                    <select id="rate">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+
+                    <button @click="rateProduct(item.id)"
+                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-black uppercase tracking-widest disabled:opacity-25 transition ease-in-out duration-150">
+                        Calificar</button>  
+
                 </td>
             </tr>
         </table>
@@ -74,7 +89,7 @@ import { onMounted } from 'vue';
 
 export default {
     setup() {
-        const { products, getProducts, destroyProduct } = useProducts()
+        const { products, getProducts, destroyProduct, qualifyProduct } = useProducts()
 
         const deleteProduct = async (id) => {
             if (!window.confirm('¿Seguro que quieres eliminar este producto?')) {
@@ -84,12 +99,18 @@ export default {
             await destroyProduct(id)
             await getProducts()
         }
+ 
+        const rateProduct = async (id) => {
+            await qualifyProduct(id)
+            await getProducts()
+        }
 
         onMounted(getProducts)
 
         return {
             products,
-            deleteProduct
+            deleteProduct,
+            rateProduct
         }
     }
 }

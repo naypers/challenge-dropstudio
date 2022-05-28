@@ -17,6 +17,8 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
+        <input type="hidden" id="id_user" value="{{ Auth::user()->id }}">
+
         <div class="min-h-screen bg-gray-100" id="app">
             @include('layouts.navigation')
 
